@@ -24,3 +24,9 @@ npm install eslint-config-standard
 # Clerk
 
 - npm install @clerk/nextjs
+
+# layout
+
+# theme context
+
+- create context folder -> ThemeProvider.tsx -> add to app layout.tsx
