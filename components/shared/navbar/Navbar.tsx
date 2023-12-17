@@ -5,13 +5,13 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import Theme from "./Theme";
 import MobileNav from "./MobileNav";
 import GlobalSearch from "../search/GlobalSearch";
-// background-light900_dark200
+
 const Navbar = () => {
   // const isLogged = false;
 
   return (
-    <nav className="bg-light-900 dark:bg-dark-200 flex justify-between items-center fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12">
-      <Link href="/">
+    <nav className="fixed z-50 flex w-full items-center justify-between gap-5 bg-light-900 p-6 shadow-light-300 dark:bg-dark-200 dark:shadow-none sm:px-12">
+      <Link href="/" className="flex items-center gap-1">
         <Image
           src="/assets/images/site-logo.svg"
           width={23}
@@ -24,7 +24,7 @@ const Navbar = () => {
         </p>
       </Link>
       <GlobalSearch />
-      <div className="flex justify-between items-center gap-5">
+      <div className="flex items-center justify-between gap-5">
         <Theme />
         <SignedIn>
           <UserButton
