@@ -1,9 +1,11 @@
 import { ClerkProvider } from "@clerk/nextjs";
+
 import { Inter, Space_Grotesk } from "next/font/google";
 
 import type { Metadata } from "next";
 
 import "./globals.css";
+
 import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
@@ -19,7 +21,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "DevFlow Ai App",
+  title: "Ai Assistance For Developers",
   description:
     "A community-driven platform for asking and answering programming questions.",
   icons: {

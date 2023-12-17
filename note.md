@@ -32,6 +32,11 @@ npm install eslint-config-standard
 - create context folder -> ThemeProvider.tsx -> add to app layout.tsx
 
 # shadcn
+
 - npx shadcn-ui@latest init
 - npx shadcn-ui@latest add button
-- npx shadcn-ui@latest add menubar   
+- npx shadcn-ui@latest add menubar
+
+# MobileNav Component
+
+- npx shadcn-ui@latest add sheet
