@@ -40,3 +40,7 @@ npm install eslint-config-standard
 # MobileNav Component
 
 - npx shadcn-ui@latest add sheet
+
+# Home page
+
+- npx shadcn-ui@latest add select
