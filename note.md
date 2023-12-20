@@ -58,3 +58,5 @@ npm install eslint-config-standard
 - tiny.cloud
 
 - npm install --save @tinymce/tinymce-react
+
+3. Custom multiple tags
