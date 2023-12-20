@@ -15,6 +15,12 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["darkgradient", "nextjs", "tailwindcss", "upvotes"],
+  "cSpell.words": [
+    "darkgradient",
+    "downvotes",
+    "nextjs",
+    "tailwindcss",
+    "upvotes"
+  ],
   "cSpell.enableFiletypes": ["postcss"]
 }
