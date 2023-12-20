@@ -52,3 +52,9 @@ npm install eslint-config-standard
 - npx shadcn-ui@latest add form
 
 - validations.ts in utils folder
+
+2. The Question Editor
+
+- tiny.cloud
+
+- npm install --save @tinymce/tinymce-react
