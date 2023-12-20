@@ -60,3 +60,16 @@ npm install eslint-config-standard
 - npm install --save @tinymce/tinymce-react
 
 3. Custom multiple tags
+
+- Making the Form Reusable
+
+# Back end [lib folder]
+
+_Ask Question Form_ [client side] -> _SeverAction Call the DB [server acction]_ -> _DB make a doccument_
+
+- npm i mongodb mongoose
+
+name: hoangxt
+password: 7hksxkAknOARuqYQ
+
+- server action
