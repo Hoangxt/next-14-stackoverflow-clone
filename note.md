@@ -44,3 +44,11 @@ npm install eslint-config-standard
 # Home page
 
 - npx shadcn-ui@latest add select
+
+# Ask Question page
+
+1. Question from
+
+- npx shadcn-ui@latest add form
+
+- validations.ts in utils folder
