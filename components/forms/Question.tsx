@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
+import { useRouter, usePathname } from "next/navigation";
 // Editor Component
 import { Editor } from "@tinymce/tinymce-react";
 import Image from "next/image";
@@ -20,13 +21,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { questionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
+// db
 import { createQuestion } from "@/lib/actions/question.action";
+
+interface QuestionProps {
+  // type?: string;
+  mongoUserId: string;
+  // questionData?: string;
+}
 
 const type: any = "create";
 
-const Question = () => {
+const Question = ({ mongoUserId }: QuestionProps) => {
   const editorRef = useRef(null);
-
+  const router = useRouter();
+  const pathname = usePathname();
+  // state
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. Define your form.
@@ -50,10 +60,17 @@ const Question = () => {
       // make async call to our api -> to create a question
       // contain all form data
 
-      await createQuestion({});
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+      });
 
       // after question create navigate to home page
+      router.push("/");
     } catch (error) {
+      console.log("error:", error);
     } finally {
       setIsSubmitting(false);
     }
