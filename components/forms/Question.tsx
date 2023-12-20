@@ -65,6 +65,7 @@ const Question = ({ mongoUserId }: QuestionProps) => {
         content: values.explanation,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
+        path: pathname,
       });
 
       // after question create navigate to home page

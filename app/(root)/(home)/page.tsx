@@ -1,3 +1,6 @@
+// get from server
+import { getQuestions } from "@/lib/actions/question.action";
+
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilters from "@/components/home/HomeFilters";
 import Filter from "@/components/shared/Filter/Filter";
@@ -8,47 +11,55 @@ import { HomePageFilters } from "@/constants/filters";
 import Link from "next/link";
 import React from "react";
 
-const questions = [
-  {
-    _id: "1",
-    title: "Cascading Deletes in SQLAlchemy",
-    tags: [
-      { _id: "1", name: "python" },
-      { _id: "2", name: "sql" },
-    ],
-    author: {
-      _id: "1",
-      clerkId: "123",
-      name: "John Doe",
-      picture: "url_to_picture",
-    },
-    upvotes: 76756464,
-    views: 3453453534,
-    answers: [],
-    createdAt: new Date("2023-09-01T12:00:00.000Z"),
-  },
-  {
-    _id: "2",
-    title: "How to center a div?",
-    tags: [
-      { _id: "3", name: "css" },
-      { _id: "4", name: "scss" },
-    ],
-    author: {
-      _id: "2",
-      clerkId: "456",
-      name: "Jane Doe",
-      picture: "url_to_picture",
-    },
-    upvotes: 9,
-    views: 120,
-    answers: [],
-    createdAt: new Date("2023-09-02T14:30:00.000Z"),
-  },
-  // Add more questions as needed
-];
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Home | Dev Overflow",
+  description: "Home page of Dev Overflow",
+};
 
-const Home = () => {
+// const questions = [
+//   {
+//     _id: "1",
+//     title: "Cascading Deletes in SQLAlchemy",
+//     tags: [
+//       { _id: "1", name: "python" },
+//       { _id: "2", name: "sql" },
+//     ],
+//     author: {
+//       _id: "1",
+//       clerkId: "123",
+//       name: "John Doe",
+//       picture: "url_to_picture",
+//     },
+//     upvotes: 76756464,
+//     views: 3453453534,
+//     answers: [],
+//     createdAt: new Date("2023-09-01T12:00:00.000Z"),
+//   },
+//   {
+//     _id: "2",
+//     title: "How to center a div?",
+//     tags: [
+//       { _id: "3", name: "css" },
+//       { _id: "4", name: "scss" },
+//     ],
+//     author: {
+//       _id: "2",
+//       clerkId: "456",
+//       name: "Jane Doe",
+//       picture: "url_to_picture",
+//     },
+//     upvotes: 9,
+//     views: 120,
+//     answers: [],
+//     createdAt: new Date("2023-09-02T14:30:00.000Z"),
+//   },
+//   // Add more questions as needed
+// ];
+
+const Home = async () => {
+  const result = await getQuestions({});
+
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -81,8 +92,8 @@ const Home = () => {
       {/*  */}
       <div className="mt-10 flex w-full flex-col gap-6">
         {/* Loop through questions */}
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
