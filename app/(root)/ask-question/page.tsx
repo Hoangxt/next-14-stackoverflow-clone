@@ -1,7 +1,7 @@
 import Question from "@/components/forms/Question";
 import React from "react";
 import type { Metadata } from "next";
-// import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 // from server actions
 import { getUserById } from "@/lib/actions/user.action";
@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   description: "Ask question page of Dev Overflow",
 };
 const page = async () => {
-  // const { userId } = auth();
+  const { userId } = auth();
   // fake user id
-  const userId = "123456";
+  // const userId = "123456";
 
   if (!userId) redirect("/sing-in");
 
