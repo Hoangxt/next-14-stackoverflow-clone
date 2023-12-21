@@ -6,8 +6,6 @@ import {
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import Image from "next/image";
@@ -61,10 +59,11 @@ const Theme = () => {
                 className={`${mode === item.value ? "active-theme" : ""}`}
               />
               <p
+                // eslint-disable-next-line tailwindcss/no-custom-classname
                 className={`body-semibold text-light-500 ${
                   mode === item.value
                     ? "text-primary-500"
-                    : "text-dark-100 dark:text-light-900 !important"
+                    : "!important text-dark-100 dark:text-light-900"
                 }`}
               >
                 {item.label}

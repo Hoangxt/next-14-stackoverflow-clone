@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Link from "next/link";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { sidebarLinks } from "@/constants";
 
@@ -33,7 +33,7 @@ const NavContent = () => {
                 isActive
                   ? "primary-gradient rounded-lg text-light-900"
                   : "text-dark300_light900"
-              } flex items-center justify-start gap-4 p-4 bg-transparent`}
+              } flex items-center justify-start gap-4 bg-transparent p-4`}
             >
               <Image
                 src={item.imgURL}
@@ -62,14 +62,14 @@ const MobileNav = () => {
           alt="Menu"
           width={36}
           height={36}
-          className="cursor-pointer invert-colors sm:hidden"
+          className="invert-colors cursor-pointer sm:hidden"
         />
       </SheetTrigger>
       <SheetContent
         side="left"
         className="background-light900_dark200 border-none"
       >
-        {/*same as navbar */}
+        {/* same as navbar */}
         <Link href="/">
           <Image
             src="/assets/images/site-logo.svg"
@@ -91,7 +91,7 @@ const MobileNav = () => {
             <div className="flex flex-col gap-3">
               <SheetClose asChild>
                 <Link href="/sign-in">
-                  <Button className="small-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-4 shadow-none">
+                  <Button className="small-medium btn-secondary min-h-[41px] w-full rounded-lg p-4 shadow-none">
                     <span className="primary-text-gradient">Login</span>
                   </Button>
                 </Link>
@@ -99,7 +99,7 @@ const MobileNav = () => {
 
               <SheetClose asChild>
                 <Link href="/sign-up">
-                  <Button className="small-medium light-border-2 btn-tertiary min-h-[41px] w-full rounded-lg px-4 py-4 shadow-none text-dark400_light900">
+                  <Button className="small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] w-full rounded-lg p-4 shadow-none">
                     Sign up
                   </Button>
                 </Link>
