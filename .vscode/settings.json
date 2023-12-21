@@ -23,6 +23,7 @@
     "nextjs",
     "Svix",
     "tailwindcss",
+    "trpc",
     "upvotes"
   ],
   "cSpell.enableFiletypes": ["postcss"]
