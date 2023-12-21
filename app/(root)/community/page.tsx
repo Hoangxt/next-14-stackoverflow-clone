@@ -15,13 +15,13 @@ export const metadata: Metadata = {
 };
 
 const Community = async ({ searchParams }: SearchParamsProps) => {
-  const { users, isNext } = await getAllUsers({
+  const { users } = await getAllUsers({
     searchQuery: searchParams?.q,
     filter: searchParams?.filter,
     page: searchParams?.page ? +searchParams?.page : 1,
   });
 
-  const pageNumber = searchParams?.page ? +searchParams?.page : 1;
+  // const pageNumber = searchParams?.page ? +searchParams?.page : 1;
 
   return (
     <>
