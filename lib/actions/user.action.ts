@@ -27,10 +27,10 @@ export const getUserById = async (params: any) => {
   }
 };
 
+// create a user in the database
 export const createUser = async (userData: CreateUserParams) => {
   try {
     connectToDatabase();
-
     const newUser = await User.create(userData);
 
     return newUser;
@@ -64,23 +64,25 @@ export const deleteUser = async (params: DeleteUserParams) => {
     const { clerkId } = params;
 
     const user = await User.findOneAndDelete({ clerkId });
+    if (!user) {
+      throw new Error("User not found");
+    }
 
-    if (!user) throw new Error("User not found");
+    // if user exist delete user data from database
+    // quesions,answers,comments etc
 
-    // Delete user from database
-    // and question, answer, comment, etc.
+    // get user question ids
 
-    // get user questions id
+    // const userQuestionIds = await Question.find({
+    //   author: user._id
+    // }).distinct('_id');
 
-    // const userQuestions = await Question.find({ author: user._id }).distinct(
-    //   "_id"
-    // );
-
-    // delete user questions
+    // delete user Questions
     await Question.deleteMany({ author: user._id });
 
-    // TODO: delete user answers
+    // todo: delete user answers, comments etc
 
+    // delete user
     const deletedUser = await User.findByIdAndDelete(user._id);
 
     return deletedUser;
