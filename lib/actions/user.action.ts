@@ -6,10 +6,14 @@ import { connectToDatabase } from "../db/mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
+  GetAllUsersParams,
   UpdateUserParams,
 } from "./shared.types";
-// cache
+
 import { revalidatePath } from "next/cache";
+import { FilterQuery } from "mongoose";
+
+// cache
 
 export const getUserById = async (params: any) => {
   try {
@@ -69,7 +73,7 @@ export const deleteUser = async (params: DeleteUserParams) => {
     }
 
     // if user exist delete user data from database
-    // quesions,answers,comments etc
+    // questions, answers, comments etc
 
     // get user question ids
 
@@ -86,6 +90,59 @@ export const deleteUser = async (params: DeleteUserParams) => {
     const deletedUser = await User.findByIdAndDelete(user._id);
 
     return deletedUser;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getAllUsers = async (params: GetAllUsersParams) => {
+  try {
+    connectToDatabase();
+
+    const { page = 1, pageSize = 10, searchQuery, filter } = params;
+
+    // pagination:
+
+    const skipAmount = (page - 1) * pageSize;
+
+    const query: FilterQuery<typeof User> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { username: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "new_users":
+        sortOptions = { joinAt: -1 };
+        break;
+      case "old_users":
+        sortOptions = { joinAt: 1 };
+        break;
+      case "top_contributors":
+        sortOptions = { reputation: -1 };
+
+        break;
+
+      default:
+        break;
+    }
+
+    const users = await User.find(query)
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
+
+    const totalUsers = await User.countDocuments(query);
+
+    const isNext = totalUsers > skipAmount + users.length;
+
+    return { users, isNext };
   } catch (error) {
     console.log(error);
     throw error;
