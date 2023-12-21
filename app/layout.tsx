@@ -20,13 +20,13 @@ const inter = Inter({
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
+  variable: "--font-spaceGrotesk",
 });
 
 export const metadata: Metadata = {
-  title: "Ai Assistance For Developers",
+  title: "DevFlow",
   description:
-    "A community-driven platform for asking and answering programming questions.",
+    "A community driven platform for developers asking and answering questions.Get help and answers to your questions about anything related to programming and software development from the best developers on the internet.",
   icons: {
     icon: "/assets/images/site-logo.svg",
   },
