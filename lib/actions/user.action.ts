@@ -1,6 +1,7 @@
 "use server";
 
 import User from "@/database/user.model";
+import Question from "@/database/question.model";
 import { connectToDatabase } from "../db/mongoose";
 import {
   CreateUserParams,
@@ -9,7 +10,6 @@ import {
 } from "./shared.types";
 // cache
 import { revalidatePath } from "next/cache";
-import Question from "@/database/question.model";
 
 export const getUserById = async (params: any) => {
   try {
