@@ -16,10 +16,12 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "cSpell.words": [
+    "camelcase",
     "darkgradient",
     "devflow",
     "downvotes",
     "nextjs",
+    "Svix",
     "tailwindcss",
     "upvotes"
   ],
