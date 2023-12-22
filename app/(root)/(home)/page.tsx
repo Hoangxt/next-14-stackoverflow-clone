@@ -17,46 +17,6 @@ export const metadata: Metadata = {
   description: "Home page of Dev Overflow",
 };
 
-// const questions = [
-//   {
-//     _id: "1",
-//     title: "Cascading Deletes in SQLAlchemy",
-//     tags: [
-//       { _id: "1", name: "python" },
-//       { _id: "2", name: "sql" },
-//     ],
-//     author: {
-//       _id: "1",
-//       clerkId: "123",
-//       name: "John Doe",
-//       picture: "url_to_picture",
-//     },
-//     upvotes: 76756464,
-//     views: 3453453534,
-//     answers: [],
-//     createdAt: new Date("2023-09-01T12:00:00.000Z"),
-//   },
-//   {
-//     _id: "2",
-//     title: "How to center a div?",
-//     tags: [
-//       { _id: "3", name: "css" },
-//       { _id: "4", name: "scss" },
-//     ],
-//     author: {
-//       _id: "2",
-//       clerkId: "456",
-//       name: "Jane Doe",
-//       picture: "url_to_picture",
-//     },
-//     upvotes: 9,
-//     views: 120,
-//     answers: [],
-//     createdAt: new Date("2023-09-02T14:30:00.000Z"),
-//   },
-//   // Add more questions as needed
-// ];
-
 const Home = async () => {
   const result = await getQuestions({});
 

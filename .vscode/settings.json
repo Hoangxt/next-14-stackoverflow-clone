@@ -16,16 +16,24 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "cSpell.words": [
+    "advlist",
     "camelcase",
+    "charmap",
+    "codesample",
     "darkgradient",
     "devflow",
     "downvotes",
+    "hookform",
+    "insertdatetime",
     "nextjs",
     "prismjs",
+    "searchreplace",
     "Svix",
     "tailwindcss",
+    "tinymce",
     "trpc",
-    "upvotes"
+    "upvotes",
+    "visualblocks"
   ],
   "cSpell.enableFiletypes": ["postcss"]
 }

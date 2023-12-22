@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   title: "Ask-question | Dev Overflow",
   description: "Ask question page of Dev Overflow",
 };
-const page = async () => {
+
+const AskQuestionPage = async () => {
   const { userId } = auth();
   // fake user id
   // const userId = "123456";
@@ -32,4 +33,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default AskQuestionPage;

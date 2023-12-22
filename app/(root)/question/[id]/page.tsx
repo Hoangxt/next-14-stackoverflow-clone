@@ -8,6 +8,10 @@ import React from "react";
 
 import type { Metadata } from "next";
 import RenderTag from "@/components/shared/RightSidebar/RenderTag";
+import Answer from "@/components/forms/Answer";
+import { auth } from "@clerk/nextjs";
+import { getUserById } from "@/lib/actions/user.action";
+import AllAnswers from "@/components/shared/AllAnswers/AllAnswers";
 
 export const metadata: Metadata = {
   title: "Question details | Dev Overflow",
@@ -26,6 +30,14 @@ const QuestionDetails = async ({
   searchParams,
 }: QuestionDetailsProps) => {
   const { question } = await getQuestionById({ questionId: params.id });
+
+  const { userId: clerkId } = auth();
+
+  let mongoUser;
+
+  if (clerkId) {
+    mongoUser = await getUserById({ userId: clerkId });
+  }
 
   return (
     <>
@@ -57,7 +69,6 @@ const QuestionDetails = async ({
 
       <div className="mb-8 mt-5 flex flex-wrap gap-4">
         <Metric
-          // href={`/question/${_id}`}
           imgUrl="/assets/icons/clock.svg"
           alt="clock icon"
           value={` asked ${getTimeStamp(question.createdAt)}`}
@@ -65,7 +76,6 @@ const QuestionDetails = async ({
           textStyles="small-medium text-dark400_light800"
         />
         <Metric
-          // href={`/question/${_id}`}
           imgUrl="/assets/icons/message.svg"
           alt="message"
           value={formatAndDivideNumber(question.answers.length)}
@@ -73,7 +83,6 @@ const QuestionDetails = async ({
           textStyles="small-medium text-dark400_light800"
         />
         <Metric
-          // href={`/question/${_id}`}
           imgUrl="/assets/icons/eye.svg"
           alt="eye"
           value={formatAndDivideNumber(question.views)}
@@ -98,6 +107,19 @@ const QuestionDetails = async ({
       </div>
 
       {/* All Answers */}
+      <AllAnswers
+        questionId={question._id}
+        userId={mongoUser._id}
+        totalAnswers={question.answers.length}
+        page={searchParams?.page}
+        filter={searchParams?.filter}
+      />
+      {/* Answer Ai generated Question */}
+      <Answer
+        question={question.content}
+        questionId={JSON.stringify(question._id)}
+        authorId={JSON.stringify(mongoUser._id)}
+      />
     </>
   );
 };
