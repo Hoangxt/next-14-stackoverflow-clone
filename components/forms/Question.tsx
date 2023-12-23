@@ -5,7 +5,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
-
+import { toast } from "../ui/use-toast";
 // Editor Component
 import { Editor } from "@tinymce/tinymce-react";
 import Image from "next/image";
@@ -24,32 +24,34 @@ import { Input } from "@/components/ui/input";
 import { questionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 // db
-import { createQuestion } from "@/lib/actions/question.action";
+import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 
 interface QuestionProps {
-  // type?: string;
+  type?: string;
   mongoUserId: string;
-  // questionData?: string;
+  questionData?: string;
 }
 
-const type: any = "create";
-
-const Question = ({ mongoUserId }: QuestionProps) => {
+const Question = ({ mongoUserId, type, questionData }: QuestionProps) => {
   const editorRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
   const { mode } = useTheme();
 
+  const questionDetails = questionData && JSON.parse(questionData || "");
+
+  const groupTags = questionDetails?.tags.map((tag: any) => tag.name);
   // state
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionsSchema>>({
     resolver: zodResolver(questionsSchema),
+    // when edit the data will be filled
     defaultValues: {
-      title: "",
-      explanation: "",
-      tags: [],
+      title: questionDetails?.title || "",
+      explanation: questionDetails?.content || "",
+      tags: groupTags || [],
     },
   });
 
@@ -61,20 +63,40 @@ const Question = ({ mongoUserId }: QuestionProps) => {
     // console.log(values);
 
     try {
-      // make async call to our api -> to create a question
-      // contain all form data
+      // make async call to our api -> to create, edit a question
+      if (type === "Edit") {
+        await editQuestion({
+          questionId: questionDetails._id,
+          title: values.title,
+          content: values.explanation,
+          path: pathname,
+        });
 
-      await createQuestion({
-        title: values.title,
-        content: values.explanation,
-        tags: values.tags,
-        author: JSON.parse(mongoUserId),
-        path: pathname,
-      });
+        router.push(`/question/${questionDetails._id}`);
+        toast({
+          title: `Question Edited `,
+          description: "Your question has been edited successfully",
+        });
+      } else {
+        // contain all form data
+        await createQuestion({
+          title: values.title,
+          content: values.explanation,
+          tags: values.tags,
+          author: JSON.parse(mongoUserId),
+          path: pathname,
+        });
 
-      // after question create navigate to home page
-      router.push("/");
+        toast({
+          title: `Question posted successfully`,
+          description: "Your question has been added successfully",
+        });
+
+        // after question create navigate to home page
+        router.push("/");
+      }
     } catch (error) {
+      // todo: handle error
       console.log("error:", error);
     } finally {
       setIsSubmitting(false);
@@ -164,7 +186,7 @@ const Question = ({ mongoUserId }: QuestionProps) => {
                   }
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
-                  initialValue=""
+                  initialValue={questionDetails?.content || ""}
                   init={{
                     height: 350,
                     menubar: false,
@@ -216,6 +238,7 @@ const Question = ({ mongoUserId }: QuestionProps) => {
               <FormControl className="mt-4">
                 <>
                   <Input
+                    disabled={type === "Edit"}
                     className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 border"
                     placeholder="e.g. javascript, react, typescript"
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
@@ -226,16 +249,22 @@ const Question = ({ mongoUserId }: QuestionProps) => {
                         <Badge
                           key={tag}
                           className="subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize"
-                          onClick={() => handleTagRemove(tag, field)}
+                          onClick={() =>
+                            type !== "Edit"
+                              ? handleTagRemove(tag, field)
+                              : () => {}
+                          }
                         >
-                          {tag}
-                          <Image
-                            src="/assets/icons/close.svg"
-                            alt="close icon"
-                            width={12}
-                            height={12}
-                            className="cursor-pointer object-contain invert-0 dark:invert"
-                          />
+                          {tag}{" "}
+                          {type !== "Edit" && (
+                            <Image
+                              src="/assets/icons/close.svg"
+                              alt="close icon"
+                              width={12}
+                              height={12}
+                              className="cursor-pointer object-contain invert-0 dark:invert"
+                            />
+                          )}
                         </Badge>
                       ))}
                     </div>
