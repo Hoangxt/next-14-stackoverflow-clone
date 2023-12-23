@@ -1,3 +1,5 @@
+import { BADGE_CRITERIA } from "@/constants";
+import { BadgeCounts } from "@/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 // import qs from 'query-string';
@@ -104,35 +106,36 @@ export const getJoinedDate = (date: Date): string => {
 //   );
 // };
 
-// interface IBadgeParams {
-//   criteria: {
-//     type: keyof typeof BADGE_CRITERIA;
-//     count: number;
-//   }[];
-// }
+// user actions service
+interface IBadgeParams {
+  criteria: {
+    type: keyof typeof BADGE_CRITERIA;
+    count: number;
+  }[];
+}
 
-// export const assignBadges = (params: IBadgeParams) => {
-//   const badgeCounts: BadgeCounts = {
-//     BRONZE: 0,
-//     GOLD: 0,
-//     SILVER: 0
-//   };
+export const assignBadges = (params: IBadgeParams) => {
+  const badgeCounts: BadgeCounts = {
+    BRONZE: 0,
+    GOLD: 0,
+    SILVER: 0,
+  };
 
-//   const { criteria } = params;
+  const { criteria } = params;
 
-//   criteria.forEach((item) => {
-//     const { type, count } = item;
-//     const badgeLevels: any = BADGE_CRITERIA[type];
+  criteria.forEach((item) => {
+    const { type, count } = item;
+    const badgeLevels: any = BADGE_CRITERIA[type];
 
-//     Object.keys(badgeLevels).forEach((level: any) => {
-//       if (count >= badgeLevels[level]) {
-//         badgeCounts[level as keyof BadgeCounts] += 1;
-//       }
-//     });
-//   });
+    Object.keys(badgeLevels).forEach((level: any) => {
+      if (count >= badgeLevels[level]) {
+        badgeCounts[level as keyof BadgeCounts] += 1;
+      }
+    });
+  });
 
-//   return badgeCounts;
-// };
+  return badgeCounts;
+};
 
 export function processJobTitle(title: string | undefined | null): string {
   // Check if title is undefined or null
