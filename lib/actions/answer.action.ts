@@ -110,6 +110,7 @@ export const upvoteAnswer = async (params: AnswerVoteParams) => {
     const { answerId, userId, hasUpVoted, path, hasDownVoted } = params;
 
     let updateQuery = {};
+
     if (hasUpVoted) {
       updateQuery = { $pull: { upvotes: userId } };
     } else if (hasDownVoted) {
@@ -151,6 +152,7 @@ export const downVoteAnswer = async (params: AnswerVoteParams) => {
     const { answerId, userId, hasUpVoted, path, hasDownVoted } = params;
 
     let updateQuery = {};
+
     if (hasDownVoted) {
       updateQuery = { $pull: { downvotes: userId } };
     } else if (hasUpVoted) {
