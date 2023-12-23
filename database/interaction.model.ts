@@ -11,6 +11,7 @@ export interface IInteraction extends Document {
 }
 
 const interactionSchema = new Schema({
+  // use make the interaction happen
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   action: { type: String, required: true },
   question: {
