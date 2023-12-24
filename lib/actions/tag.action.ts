@@ -150,7 +150,8 @@ export const getQuestionsByTagId = async (
 export const getTopPopularTags = async () => {
   try {
     connectToDatabase();
-
+    // numberOfQuestions(can be another name) reshapes the document to include the number of questions
+    // that have the tag
     const popularTags = await Tag.aggregate([
       {
         $project: { name: 1, numberOfQuestions: { $size: "$questions" } },
