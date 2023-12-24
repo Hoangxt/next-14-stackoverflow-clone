@@ -12,13 +12,18 @@ import Link from "next/link";
 import React from "react";
 
 import type { Metadata } from "next";
+import { SearchParamsProps } from "@/types";
 export const metadata: Metadata = {
   title: "Home | Dev Overflow",
   description: "Home page of Dev Overflow",
 };
 
-const Home = async () => {
-  const result = await getQuestions({});
+const Home = async ({ searchParams }: SearchParamsProps) => {
+  const result = await getQuestions({
+    searchQuery: searchParams?.q,
+    filter: searchParams?.filter,
+    page: searchParams?.page ? +searchParams?.page : 1,
+  });
 
   return (
     <>
