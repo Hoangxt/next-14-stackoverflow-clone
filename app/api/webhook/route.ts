@@ -82,7 +82,7 @@ export async function POST(req: Request) {
     const { id, email_addresses, image_url, username, first_name, last_name } =
       evt.data;
 
-    console.log("clerk id", id);
+    // console.log("clerk id", id);
 
     // create a server action to create a user in the database
 
@@ -108,5 +108,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "OK", user: deletedUser });
   }
 
-  return new Response('', { status: 200 })
+  return new Response("", { status: 200 });
 }
