@@ -19,6 +19,7 @@
     "advlist",
     "camelcase",
     "charmap",
+    "clsx",
     "codesample",
     "darkgradient",
     "darknone",
@@ -30,7 +31,6 @@
     "hookform",
     "insertdatetime",
     "nextjs",
-
     "prismjs",
     "searchreplace",
     "Svix",

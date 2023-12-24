@@ -2,9 +2,7 @@ import { BADGE_CRITERIA } from "@/constants";
 import { BadgeCounts } from "@/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-// import qs from 'query-string';
-// import { BADGE_CRITERIA } from '@/constants';
-// import { BadgeCounts } from '@/types';
+import qs from "query-string";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -63,48 +61,50 @@ export const getJoinedDate = (date: Date): string => {
   return joinedDate;
 };
 
-// interface UrlQueryParams {
-//   params: string;
-//   key: string;
-//   value: string | null;
-// }
+// 28_The Local Search Functionality
 
-// export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
-//   const currentUrl = qs.parse(params);
-//   currentUrl[key] = value;
+interface UrlQueryParams {
+  params: string;
+  key: string;
+  value: string | null;
+}
 
-//   return qs.stringifyUrl(
-//     {
-//       url: window.location.pathname,
-//       query: currentUrl
-//     },
-//     { skipNull: true }
-//   );
-// };
+export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+  currentUrl[key] = value;
 
-// interface removeUrlQueryParams {
-//   params: string;
-//   keysToRemove: string[];
-// }
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
 
-// export const removeKeysFromQuery = ({
-//   params,
-//   keysToRemove
-// }: removeUrlQueryParams) => {
-//   const currentUrl = qs.parse(params);
+interface removeUrlQueryParams {
+  params: string;
+  keysToRemove: string[];
+}
 
-//   keysToRemove.forEach((key) => {
-//     delete currentUrl[key];
-//   });
+export const removeKeysFromQuery = ({
+  params,
+  keysToRemove,
+}: removeUrlQueryParams) => {
+  const currentUrl = qs.parse(params);
 
-//   return qs.stringifyUrl(
-//     {
-//       url: window.location.pathname,
-//       query: currentUrl
-//     },
-//     { skipNull: true }
-//   );
-// };
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
 
 // user actions service
 interface IBadgeParams {
