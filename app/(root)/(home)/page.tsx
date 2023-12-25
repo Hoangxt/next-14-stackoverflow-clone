@@ -1,5 +1,8 @@
 // get from server
-import { getQuestions } from "@/lib/actions/question.action";
+import {
+  getQuestions,
+  getRecommendedQuestions,
+} from "@/lib/actions/question.action";
 
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilters from "@/components/home/HomeFilters";
@@ -13,17 +16,42 @@ import React from "react";
 
 import type { Metadata } from "next";
 import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/Pagination/Pagination";
+import { auth } from "@clerk/nextjs";
 export const metadata: Metadata = {
   title: "Home | Dev Overflow",
   description: "Home page of Dev Overflow",
 };
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
-  const result = await getQuestions({
-    searchQuery: searchParams?.q,
-    filter: searchParams?.filter,
-    page: searchParams?.page ? +searchParams?.page : 1,
-  });
+  const { userId } = auth();
+
+  let result;
+
+  // ? fetch recommended questions
+
+  if (searchParams?.filter === "recommended") {
+    if (userId) {
+      result = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams?.q,
+        page: searchParams?.page ? +searchParams?.page : 1,
+      });
+    } else {
+      result = {
+        questions: [],
+        isNext: false,
+      };
+    }
+  } else {
+    result = await getQuestions({
+      searchQuery: searchParams?.q,
+      filter: searchParams?.filter,
+      page: searchParams?.page ? +searchParams?.page : 1,
+    });
+  }
+
+  const pageNumber = searchParams?.page ? +searchParams?.page : 1;
 
   return (
     <>
@@ -79,6 +107,11 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-10">
+        <Pagination pageNumber={pageNumber} isNext={result.isNext} />
       </div>
     </>
   );

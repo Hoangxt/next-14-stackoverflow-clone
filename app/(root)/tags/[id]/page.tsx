@@ -6,6 +6,7 @@ import NoResult from "@/components/shared/NoResult/NoResult";
 import { getQuestionsByTagId } from "@/lib/actions/tag.action";
 import { URLProps } from "@/types";
 import QuestionCard from "@/components/cards/QuestionCard";
+import Pagination from "@/components/shared/Pagination/Pagination";
 
 export const metadata: Metadata = {
   title: "Tags | Dev Overflow",
@@ -13,11 +14,13 @@ export const metadata: Metadata = {
 };
 
 const TagDetailPage = async ({ params, searchParams }: URLProps) => {
-  const { tagTitle, questions } = await getQuestionsByTagId({
+  const { tagTitle, questions, isNext } = await getQuestionsByTagId({
     tagId: params.id,
     page: searchParams?.page ? +searchParams.page : 1,
     searchQuery: searchParams?.q,
   });
+
+  const pageNumber = searchParams?.page ? +searchParams?.page : 1;
 
   return (
     <>
@@ -60,6 +63,11 @@ const TagDetailPage = async ({ params, searchParams }: URLProps) => {
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-10">
+        <Pagination pageNumber={pageNumber} isNext={isNext} />
       </div>
     </>
   );

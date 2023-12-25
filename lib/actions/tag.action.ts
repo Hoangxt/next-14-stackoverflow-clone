@@ -52,7 +52,7 @@ export const getAllTags = async (params: GetAllTagsParams) => {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 6 } = params;
 
     // pagination:
     const skipAmount = (page - 1) * pageSize;

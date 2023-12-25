@@ -362,7 +362,7 @@ export const getUserInfo = async (params: GetUserByIdParams) => {
 export const getUserQuestions = async (params: GetUserStatsParams) => {
   try {
     connectToDatabase();
-    const { userId, page = 1, pageSize = 10 } = params;
+    const { userId, page = 1, pageSize = 5 } = params;
     // pagination
 
     const skipAmount = (page - 1) * pageSize;
@@ -392,7 +392,7 @@ export const getUserQuestions = async (params: GetUserStatsParams) => {
 export const getUserAnswers = async (params: GetUserStatsParams) => {
   try {
     connectToDatabase();
-    const { userId, page = 1, pageSize = 10 } = params;
+    const { userId, page = 1, pageSize = 5 } = params;
     const skipAmount = (page - 1) * pageSize;
 
     const totalAnswers = await Answer.countDocuments({ author: userId });

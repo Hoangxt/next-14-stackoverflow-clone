@@ -1,6 +1,6 @@
 import UserCard from "@/components/cards/UserCard";
 import Filter from "@/components/shared/Filter/Filter";
-// import Pagination from '@/components/shared/Pagination/Pagination';
+import Pagination from "@/components/shared/Pagination/Pagination";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { UserFilters } from "@/constants/filters";
 import { getAllUsers } from "@/lib/actions/user.action";
@@ -15,13 +15,13 @@ export const metadata: Metadata = {
 };
 
 const Community = async ({ searchParams }: SearchParamsProps) => {
-  const { users } = await getAllUsers({
+  const { users, isNext } = await getAllUsers({
     searchQuery: searchParams?.q,
     filter: searchParams?.filter,
     page: searchParams?.page ? +searchParams?.page : 1,
   });
 
-  // const pageNumber = searchParams?.page ? +searchParams?.page : 1;
+  const pageNumber = searchParams?.page ? +searchParams?.page : 1;
 
   return (
     <>
@@ -55,9 +55,9 @@ const Community = async ({ searchParams }: SearchParamsProps) => {
         )}
       </section>
 
-      {/* <div className="mt-10">
+      <div className="mt-10">
         <Pagination pageNumber={pageNumber} isNext={isNext} />
-      </div> */}
+      </div>
     </>
   );
 };

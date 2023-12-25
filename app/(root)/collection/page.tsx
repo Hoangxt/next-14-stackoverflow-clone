@@ -3,7 +3,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { auth } from "@clerk/nextjs";
 import { getSavedQuestions } from "@/lib/actions/user.action";
-
+import Pagination from "@/components/shared/Pagination/Pagination";
 import Filter from "@/components/shared/Filter/Filter";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { QuestionFilters } from "@/constants/filters";
@@ -19,11 +19,14 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
   if (!userId) return null;
 
-  const { questions } = await getSavedQuestions({
+  const { questions, isNext } = await getSavedQuestions({
     clerkId: userId,
     searchQuery: searchParams?.q,
     filter: searchParams?.filter,
+    page: searchParams?.page ? +searchParams?.page : 1,
   });
+
+  const pageNumber = searchParams?.page ? +searchParams?.page : 1;
 
   return (
     <>
@@ -68,6 +71,11 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-10">
+        <Pagination pageNumber={pageNumber} isNext={isNext} />
       </div>
     </>
   );
