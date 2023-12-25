@@ -9,17 +9,20 @@ import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { QuestionFilters } from "@/constants/filters";
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult/NoResult";
+import { SearchParamsProps } from "@/types";
 export const metadata: Metadata = {
   title: "Collections | Dev Overflow",
   description: "Collections page of Dev Overflow",
 };
 
-const CollectionPage = async () => {
+const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
   if (!userId) return null;
 
   const { questions } = await getSavedQuestions({
     clerkId: userId,
+    searchQuery: searchParams?.q,
+    filter: searchParams?.filter,
   });
 
   return (
