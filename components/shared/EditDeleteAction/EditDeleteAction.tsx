@@ -15,24 +15,32 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
   const router = useRouter();
 
   const handleDelete = async () => {
-    if (type === "Question") {
-      // delete Question
-      await deleteQuestion({ questionId: JSON.parse(itemId), path: pathname });
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (confirmDelete) {
+      if (type === "Question") {
+        // delete Question
+        await deleteQuestion({
+          questionId: JSON.parse(itemId),
+          path: pathname,
+        });
 
-      toast({
-        title: ` Question Deleted `,
-        variant: "destructive",
-        description: "Your question has been deleted successfully",
-      });
-    } else if (type === "Answer") {
-      // delete Answer
-      await deleteAnswer({ answerId: JSON.parse(itemId), path: pathname });
+        toast({
+          title: ` Question Deleted `,
+          variant: "destructive",
+          description: "Your question has been deleted successfully",
+        });
+      } else if (type === "Answer") {
+        // delete Answer
+        await deleteAnswer({ answerId: JSON.parse(itemId), path: pathname });
 
-      toast({
-        title: `Answer Deleted `,
-        variant: "destructive",
-        description: "Your answer has been deleted successfully",
-      });
+        toast({
+          title: `Answer Deleted `,
+          variant: "destructive",
+          description: "Your answer has been deleted successfully",
+        });
+      }
     }
   };
 

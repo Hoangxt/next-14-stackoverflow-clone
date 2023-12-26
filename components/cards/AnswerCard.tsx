@@ -3,8 +3,6 @@ import Metric from "../shared/Metric/Metric";
 import Link from "next/link";
 import { SignedIn } from "@clerk/nextjs";
 import EditDeleteAction from "../shared/EditDeleteAction/EditDeleteAction";
-// import { SignedIn } from "@clerk/nextjs";
-// import EditDeleteAction from "../shared/EditDeleteAction/EditDeleteAction";
 
 interface Props {
   clerkId?: string | null;

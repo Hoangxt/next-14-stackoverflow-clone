@@ -35,7 +35,7 @@ const Pagination = ({ pageNumber, isNext }: Props) => {
       >
         <p className="body-medium text-dark200_light800">Prev</p>
       </Button>
-      <div className="flex items-center justify-center rounded-md bg-primary-500 px-3.5 py-3">
+      <div className="flex items-center justify-center rounded-md bg-primary-500 px-4 py-3">
         <p className="body-semibold text-light-900">{pageNumber}</p>
       </div>
       <Button
