@@ -60,20 +60,17 @@ const Stats = ({
         {/* show badges */}
         <StatsCard
           imgUrl="/assets/icons/gold-medal.svg"
-          // value={badges.GOLD}
-          value={0}
+          value={badges.GOLD}
           title="Gold Badges"
         />
         <StatsCard
           imgUrl="/assets/icons/silver-medal.svg"
-          // value={badges.SILVER}
-          value={0}
+          value={badges.SILVER}
           title="Silver Badges"
         />
         <StatsCard
           imgUrl="/assets/icons/bronze-medal.svg"
-          // value={badges.BRONZE}
-          value={0}
+          value={badges.BRONZE}
           title="Bronze Badges"
         />
       </div>

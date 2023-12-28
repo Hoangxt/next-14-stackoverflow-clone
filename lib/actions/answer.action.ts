@@ -129,14 +129,18 @@ export const upvoteAnswer = async (params: AnswerVoteParams) => {
       throw new Error("No Answer found");
     }
 
-    //  increment author's reputation +2 points for upvoting an answer
-    await User.findByIdAndUpdate(userId, {
-      $inc: { reputation: hasUpVoted ? -2 : 2 },
-    });
+    // Only change reputation if the user is not the author of the answer
+    if (answer.author.toString() !== userId) {
+      // increment user's reputation +2 points for up voting an answer
+      await User.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasUpVoted ? -2 : 2 },
+      });
 
-    await User.findByIdAndUpdate(answer.author, {
-      $inc: { reputation: hasUpVoted ? -10 : 10 },
-    });
+      // increment author's reputation +10 points for being up voted
+      await User.findByIdAndUpdate(answer.author, {
+        $inc: { reputation: hasUpVoted ? -10 : 10 },
+      });
+    }
 
     revalidatePath(path);
   } catch (error) {
@@ -170,16 +174,18 @@ export const downVoteAnswer = async (params: AnswerVoteParams) => {
     if (!answer) {
       throw new Error("No answer found");
     }
+    // Only change reputation if the user is not the author of the answer
+    if (answer.author.toString() !== userId) {
+      // decrement user's reputation -2 points for down voting an answer
+      await User.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasDownVoted ? 2 : -2 },
+      });
 
-    //  decrease author's reputation
-
-    await User.findByIdAndUpdate(userId, {
-      $inc: { reputation: hasDownVoted ? -2 : 2 },
-    });
-
-    await User.findByIdAndUpdate(answer.author, {
-      $inc: { reputation: hasDownVoted ? -10 : 10 },
-    });
+      // decrement author's reputation -10 points for being down voted
+      await User.findByIdAndUpdate(answer.author, {
+        $inc: { reputation: hasDownVoted ? 10 : -10 },
+      });
+    }
 
     revalidatePath(path);
   } catch (error) {

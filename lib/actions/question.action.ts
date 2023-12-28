@@ -137,8 +137,15 @@ export async function createQuestion(params: CreateQuestionParams) {
     });
 
     // Create an interaction record for the user's asking of the question
-
+    await Interaction.create({
+      user: author,
+      action: "ask_question",
+      question: question._id,
+      tags: tagDocuments,
+    });
     // Increment author's reputation by +5 for creating a question
+
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
 
     revalidatePath(path);
   } catch (error) {
@@ -172,18 +179,18 @@ export const upvoteQuestion = async (params: QuestionVoteParams) => {
     if (!question) {
       throw new Error("No question found");
     }
+    // Only change reputation if the user is not the author of the answer
+    if (question.author.toString() !== userId) {
+      // ? increment author's reputation by +2/-2 for up voting/revoking an upvote to the question
+      await User.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasUpVoted ? -2 : 2 },
+      });
 
-    // ? increment author's reputation by +1/-1 for upvoting/revoking an upvote to the question
-
-    await User.findByIdAndUpdate(userId, {
-      $inc: { reputation: hasUpVoted ? -1 : 1 },
-    });
-
-    // ? Increment user's reputation by +10/-10 for recieving and upvote/revoking an upvote to the question
-
-    await User.findByIdAndUpdate(question.author, {
-      $inc: { reputation: hasUpVoted ? -10 : 10 },
-    });
+      // ? Increment user's reputation by +10/-10 for recieving and upvote/revoking an upvote to the question
+      await User.findByIdAndUpdate(question.author, {
+        $inc: { reputation: hasUpVoted ? -10 : 10 },
+      });
+    }
 
     revalidatePath(path);
   } catch (error) {
@@ -217,18 +224,18 @@ export const downVoteQuestion = async (params: QuestionVoteParams) => {
     if (!question) {
       throw new Error("No question found");
     }
+    // Only change reputation if the user is not the author of the answer
+    if (question.author.toString() !== userId) {
+      // ? decrement author's reputation by +2/-2 for down voting/revoking a downvote to the question
+      await User.findByIdAndUpdate(userId, {
+        $inc: { reputation: hasDownVoted ? 2 : -2 },
+      });
 
-    // ? decrement author's reputation by +1/-1 for downvoting/revoking a downvote to the question
-
-    await User.findByIdAndUpdate(userId, {
-      $inc: { reputation: hasDownVoted ? 1 : -1 },
-    });
-
-    // ? Decrement user's reputation by +10/-10 for receiving a downvote/revoking a downvote to the question
-
-    await User.findByIdAndUpdate(question.author, {
-      $inc: { reputation: hasDownVoted ? 10 : -10 },
-    });
+      // // ? Decrement user's reputation by +10/-10 for receiving a downvote/revoking a downvote to the question
+      await User.findByIdAndUpdate(question.author, {
+        $inc: { reputation: hasDownVoted ? 10 : -10 },
+      });
+    }
 
     revalidatePath(path);
   } catch (error) {
