@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
+// ui components
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
@@ -13,10 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { AnswerSchema } from "@/lib/validations";
+import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
 
 import { Editor } from "@tinymce/tinymce-react";
 import { useTheme } from "@/context/ThemeProvider";
-import { Button } from "../ui/button";
 import { createAnswer } from "@/lib/actions/answer.action";
 
 interface Props {
@@ -65,7 +67,45 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     }
   };
 
-  const generateAiAnswer = async () => {};
+  const generateAiAnswer = async () => {
+    if (!authorId) return;
+
+    setIsSubmittingAI(true);
+
+    try {
+      // call api
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+        {
+          method: "POST",
+          body: JSON.stringify({ question }),
+        }
+      );
+
+      const aiAnswer = await response.json();
+
+      // convert plaintext to html
+      const formattedAnswer = aiAnswer.reply.replace(/\n/g, "<br />");
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent(formattedAnswer);
+      }
+
+      // Toast notification
+      return toast({
+        title: `${aiAnswer.reply && "Ai answer generated"}`,
+        description: "Ai answer generated successfully",
+      });
+    } catch (error: any) {
+      return toast({
+        title: `${error?.message}`,
+        variant: "destructive",
+        description: `${error?.code}`,
+      });
+    } finally {
+      setIsSubmittingAI(false);
+    }
+  };
 
   return (
     <div className="mt-8">
