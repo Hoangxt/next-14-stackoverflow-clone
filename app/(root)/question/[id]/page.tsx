@@ -1,15 +1,17 @@
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs";
+
 import Metric from "@/components/shared/Metric/Metric";
 import ParseHTML from "@/components/shared/ParseHTML/ParseHTML";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { formatAndDivideNumber, getTimeStamp } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
 
-import type { Metadata } from "next";
 import RenderTag from "@/components/shared/RightSidebar/RenderTag";
 import Answer from "@/components/forms/Answer";
-import { auth } from "@clerk/nextjs";
 import { getUserById } from "@/lib/actions/user.action";
 import AllAnswers from "@/components/shared/AllAnswers/AllAnswers";
 import Votes from "@/components/shared/Votes/Votes";
@@ -38,6 +40,8 @@ const QuestionDetails = async ({
 
   if (clerkId) {
     mongoUser = await getUserById({ userId: clerkId });
+  } else {
+    return redirect("/sign-in");
   }
 
   // console.log("upvotes", question.downvotes.length);

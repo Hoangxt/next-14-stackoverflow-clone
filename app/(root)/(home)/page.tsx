@@ -18,6 +18,7 @@ import type { Metadata } from "next";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination/Pagination";
 import { auth } from "@clerk/nextjs";
+
 export const metadata: Metadata = {
   title: "Home | Dev Overflow",
   description: "Home page of Dev Overflow",

@@ -41,7 +41,7 @@ const Profile = ({ clerkId, user }: ProfileProps) => {
     defaultValues: {
       name: userInfo.name || "",
       username: userInfo.username || "",
-      portfolioWebSite: userInfo.portfolioWebSite || "",
+      portfolioWebsite: userInfo.portfolioWebsite || "",
       location: userInfo.location || "",
       bio: userInfo.bio || "",
     },
@@ -57,7 +57,7 @@ const Profile = ({ clerkId, user }: ProfileProps) => {
         updateData: {
           name: values.name,
           username: values.username,
-          portfolioWebsite: values.portfolioWebSite,
+          portfolioWebsite: values.portfolioWebsite,
           location: values.location,
           bio: values.bio,
         },
@@ -72,6 +72,10 @@ const Profile = ({ clerkId, user }: ProfileProps) => {
         description: "Your profile has been updated successfully",
       });
     } catch (error) {
+      toast({
+        title: "Error updating profile ⚠️",
+        variant: "destructive",
+      });
       console.log(error);
     } finally {
       setIsSubmitting(false);
@@ -129,12 +133,13 @@ const Profile = ({ clerkId, user }: ProfileProps) => {
         {/* portfolio website link */}
         <FormField
           control={form.control}
-          name="portfolioWebSite"
+          name="portfolioWebsite"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
               <FormLabel>Portfolio Website</FormLabel>
               <FormControl>
                 <Input
+                  type="url"
                   placeholder="Enter Portfolio Website Link"
                   {...field}
                   className="no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border"

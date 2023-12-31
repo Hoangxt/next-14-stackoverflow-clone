@@ -157,7 +157,7 @@ export const getTopPopularTags = async () => {
         $project: { name: 1, numberOfQuestions: { $size: "$questions" } },
       },
       { $sort: { numberOfQuestions: -1 } },
-      { $limit: 10 },
+      { $limit: 5 },
     ]);
 
     return popularTags;
